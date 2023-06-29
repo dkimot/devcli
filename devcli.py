@@ -39,6 +39,10 @@ def deploy():
     print('running ' + command)
     os.system(command)
 
+@cli.command()
+def logsnag():
+    open_url(config['logsnag_url'])
+
 @cli.group()
 def gh():
     pass
