@@ -41,7 +41,9 @@ def deploy():
 
 @cli.command()
 def logsnag():
-    open_url(config['logsnag_url'])
+    logsnag_project_id = config['logsnag']['project_id']
+    logsnag_url = f'https://app.logsnag.com/dashboard/{logsnag_project_id}/feed'
+    open_url(logsnag_url)
 
 @cli.group()
 def gh():
