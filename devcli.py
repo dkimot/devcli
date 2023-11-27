@@ -90,8 +90,13 @@ def tunnel():
     ip_v4 = get_ip("4")
     ip_v6 = get_ip("6")
 
-    print(f'ngrok http {port} --cidr-allow {ip_v4}/32 --cidr-allow {ip_v6}/32 --domain kimotodev.ngrok.io')
     os.system(f'ngrok http {port} --cidr-allow {ip_v4}/32 --cidr-allow {ip_v6}/32 --domain kimotodev.ngrok.io')
+
+@cli.command()
+def open_tunnel():
+    port = config['tunnel']['port']
+
+    os.system(f'ngrok http {port} --domain kimotodev.ngrok.io')
 
 def open_url(url):
     print("Opening " + url)
