@@ -87,9 +87,18 @@ def tasks():
 def tunnel():
     port = config['tunnel']['port']
 
-    os.system(f'ngrok http --domain kimotodev.ngrok.io {port}')
+    ip_v4 = get_ip("4")
+    ip_v6 = get_ip("6")
+
+    print(f'ngrok http {port} --cidr-allow {ip_v4}/32 --cidr-allow {ip_v6}/32 --domain kimotodev.ngrok.io')
+    os.system(f'ngrok http {port} --cidr-allow {ip_v4}/32 --cidr-allow {ip_v6}/32 --domain kimotodev.ngrok.io')
 
 def open_url(url):
     print("Opening " + url)
     time.sleep(1)
     os.system(f'open "{url}"')
+
+def get_ip(version):
+    result = os.popen(f"curl -{version} https://icanhazip.com")
+    raw = result.read()
+    return raw.replace("\n", "")
