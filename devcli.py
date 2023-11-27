@@ -7,8 +7,12 @@ import os
 import subprocess
 import tomllib
 
-with open(".devcli.toml", "rb") as f:
-    config = tomllib.load(f)
+try:
+    file = open(".devcli.toml", "rb")
+    config = tomllib.load(file)
+except FileNotFoundError as e:
+    print("WARNING: there isn't a .devcli.toml in this directory. are you sure you've setup the devcli?")
+    quit()
 
 @click.group()
 @click.version_option()
@@ -68,7 +72,8 @@ def logs():
 
 @cli.command()
 def metrics():
-    open_url(fly.metrics_url())
+    org_id = config['fly']['org_id']
+    open_url(fly.metrics_url(org_id))
 
 @cli.command()
 def open():
